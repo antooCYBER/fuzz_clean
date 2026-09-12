@@ -276,7 +276,13 @@ fuzz_all() {
         #   -u       URL con keyword FUZZ
         #   -w       wordlist
         #   -t       threads paralleli
+        #   -ac      autocalibration: ffuf invia richieste probe iniziali
+        #            su path casuali inesistenti, ne campiona dimensione e
+        #            codice di risposta e costruisce filtri dinamici —
+        #            elimina i "soft 404" (pagine custom che rispondono 200
+        #            ma sono in realtà pagine di errore) senza -fs manuale
         #   -fc      filtra codici HTTP inutili (404, 403, 429, ecc.)
+        #            rimane come guardia per i casi non coperti da -ac
         #   -o       file di output
         #   -of      formato output (json)
         #   -s       silent: sopprime il banner di ffuf
@@ -287,6 +293,7 @@ fuzz_all() {
             -u       "${fuzz_url}" \
             -w       "${WORDLIST}" \
             -t       "${THREADS}" \
+            -ac \
             -fc      "${FILTER_CODES}" \
             -o       "${json_out}" \
             -of      json \
